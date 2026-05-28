@@ -1,0 +1,298 @@
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Share+Tech+Mono&display=swap');
+
+/* ── CSS VARIABLES ─────────────────────────────────────────── */
+:root {
+  --bg:          #040810;
+  --grid:        #060e1c;
+  --neon-green:  #00ff88;
+  --neon-cyan:   #00e5ff;
+  --neon-pink:   #ff2d78;
+  --neon-yellow: #ffe600;
+  --neon-orange: #ff7b00;
+  --glow-green:  0 0 8px #00ff88, 0 0 22px #00ff8866, 0 0 45px #00ff8833;
+  --glow-pink:   0 0 8px #ff2d78, 0 0 22px #ff2d7866, 0 0 45px #ff2d7833;
+  --glow-cyan:   0 0 8px #00e5ff, 0 0 22px #00e5ff66;
+  --glow-yellow: 0 0 8px #ffe600, 0 0 22px #ffe60066;
+}
+
+/* ── RESET ─────────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+/* ── BODY & SPARKY BACKGROUND ──────────────────────────────── */
+body {
+  background: var(--bg);
+  font-family: 'Orbitron', monospace;
+  color: var(--neon-green);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  overflow: hidden;
+  user-select: none;
+  position: relative;
+}
+
+/* Electric grid background */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background:
+    linear-gradient(rgba(0,229,255,0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0,229,255,0.03) 1px, transparent 1px);
+  background-size: 40px 40px;
+  animation: gridDrift 20s linear infinite;
+  pointer-events: none;
+  z-index: 0;
+}
+
+@keyframes gridDrift {
+  0%   { background-position: 0 0, 0 0; }
+  100% { background-position: 40px 40px, 40px 40px; }
+}
+
+/* CRT vignette */
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background:
+    radial-gradient(ellipse at center, transparent 55%, rgba(0,0,0,0.75) 100%),
+    repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,0.07) 2px, rgba(0,0,0,0.07) 4px);
+  pointer-events: none;
+  z-index: 200;
+}
+
+/* Spark canvas sits behind everything */
+#sparkCanvas {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* ── LAYOUT WRAPPER ────────────────────────────────────────── */
+.page {
+  position: relative;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* ── HEADER ────────────────────────────────────────────────── */
+header { text-align: center; margin-bottom: 14px; }
+
+.title {
+  font-size: 2.8rem;
+  font-weight: 900;
+  letter-spacing: 0.35em;
+  color: var(--neon-green);
+  text-shadow: var(--glow-green);
+  animation: flicker 5s infinite;
+}
+
+.subtitle {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 0.65rem;
+  letter-spacing: 0.28em;
+  color: var(--neon-cyan);
+  opacity: 0.65;
+  margin-top: 4px;
+}
+
+@keyframes flicker {
+  0%, 92%, 94%, 100% { opacity: 1; }
+  93% { opacity: 0.6; }
+  95% { opacity: 0.4; }
+  96% { opacity: 1;   }
+  97% { opacity: 0.7; }
+}
+
+/* ── HUD ───────────────────────────────────────────────────── */
+.hud {
+  display: flex;
+  gap: 44px;
+  margin-bottom: 10px;
+  align-items: center;
+}
+
+.hud-item { text-align: center; }
+
+.hud-label {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 0.58rem;
+  letter-spacing: 0.22em;
+  color: var(--neon-cyan);
+  opacity: 0.55;
+}
+
+.hud-value {
+  font-size: 1.55rem;
+  font-weight: 700;
+  color: var(--neon-green);
+  text-shadow: var(--glow-green);
+  transition: transform 0.12s, color 0.12s;
+}
+
+.hud-value.pop {
+  transform: scale(1.45);
+  color: var(--neon-yellow);
+  text-shadow: var(--glow-yellow);
+}
+
+/* ── SPEED PILLS ───────────────────────────────────────────── */
+.speed-pills {
+  display: flex;
+  gap: 7px;
+  justify-content: center;
+  margin-bottom: 9px;
+}
+
+.pill {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 0.58rem;
+  letter-spacing: 0.1em;
+  padding: 3px 11px;
+  border: 1px solid rgba(0,229,255,0.25);
+  background: transparent;
+  color: rgba(0,229,255,0.45);
+  cursor: pointer;
+  transition: all 0.15s;
+  border-radius: 2px;
+}
+
+.pill.active, .pill:hover {
+  border-color: var(--neon-cyan);
+  color: var(--neon-cyan);
+  box-shadow: var(--glow-cyan);
+}
+
+/* ── SKIN PICKER ───────────────────────────────────────────── */
+.skin-bar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 9px;
+}
+
+.skin-label {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 0.58rem;
+  letter-spacing: 0.15em;
+  color: rgba(0,229,255,0.5);
+}
+
+.skin-btn {
+  width: 28px;
+  height: 28px;
+  border-radius: 4px;
+  border: 2px solid transparent;
+  cursor: pointer;
+  transition: all 0.15s;
+  position: relative;
+  overflow: hidden;
+}
+
+.skin-btn:hover   { transform: scale(1.15); }
+.skin-btn.active  { border-color: #fff; box-shadow: 0 0 8px #ffffff88; transform: scale(1.18); }
+
+/* Swatch fill colours are set inline via JS */
+
+/* ── ARENA ─────────────────────────────────────────────────── */
+.arena-wrapper { position: relative; }
+
+.arena-frame {
+  padding: 6px;
+  border: 2px solid var(--neon-green);
+  border-radius: 4px;
+  box-shadow: var(--glow-green), inset 0 0 35px rgba(0,255,136,0.04);
+  position: relative;
+}
+
+.arena-frame::before,
+.arena-frame::after {
+  content: '◈';
+  position: absolute;
+  font-size: 1rem;
+  color: var(--neon-cyan);
+  text-shadow: var(--glow-cyan);
+}
+.arena-frame::before { top: -14px; left: -14px; }
+.arena-frame::after  { bottom: -14px; right: -14px; }
+
+canvas#canvas {
+  display: block;
+  background: var(--grid);
+  image-rendering: pixelated;
+}
+
+/* ── OVERLAYS ──────────────────────────────────────────────── */
+.overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: rgba(4,8,16,0.90);
+  z-index: 10;
+  gap: 14px;
+}
+
+.overlay.hidden { display: none; }
+
+.overlay-title {
+  font-size: 2rem;
+  font-weight: 900;
+  letter-spacing: 0.22em;
+  text-shadow: var(--glow-green);
+}
+
+.overlay-title.dead {
+  color: var(--neon-pink);
+  text-shadow: var(--glow-pink);
+}
+
+.overlay-score {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 0.82rem;
+  color: var(--neon-cyan);
+  letter-spacing: 0.14em;
+  text-align: center;
+  line-height: 1.7;
+}
+
+.btn {
+  font-family: 'Orbitron', monospace;
+  font-size: 0.82rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  padding: 9px 26px;
+  border: 2px solid var(--neon-green);
+  background: transparent;
+  color: var(--neon-green);
+  cursor: pointer;
+  text-transform: uppercase;
+  transition: all 0.15s;
+  box-shadow: var(--glow-green);
+}
+
+.btn:hover {
+  background: var(--neon-green);
+  color: var(--bg);
+  box-shadow: var(--glow-green), inset 0 0 18px rgba(0,255,136,0.3);
+  transform: scale(1.05);
+}
+
+/* ── CONTROLS HINT ─────────────────────────────────────────── */
+.controls {
+  margin-top: 13px;
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 0.6rem;
+  letter-spacing: 0.14em;
+  color: rgba(0,229,255,0.35);
+  text-align: center;
+  line-height: 1.9;
+}

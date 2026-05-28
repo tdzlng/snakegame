@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>SNAKE — Neon Arcade</title>
+  <link rel="stylesheet" href="style.css"/>
+</head>
+<body>
+
+<!-- Spark particle layer -->
+<canvas id="sparkCanvas"></canvas>
+
+<div class="page">
+
+  <header>
+    <div class="title">SNAKE</div>
+    <div class="subtitle">NEON ARCADE EDITION · v3.0</div>
+  </header>
+
+  <!-- HUD -->
+  <div class="hud">
+    <div class="hud-item">
+      <div class="hud-label">SCORE</div>
+      <div class="hud-value" id="score">0</div>
+    </div>
+    <div class="hud-item">
+      <div class="hud-label">LEVEL</div>
+      <div class="hud-value" id="level">1</div>
+    </div>
+    <div class="hud-item">
+      <div class="hud-label">CHERRIES</div>
+      <div class="hud-value" id="cherries">0</div>
+    </div>
+    <div class="hud-item">
+      <div class="hud-label">BEST</div>
+      <div class="hud-value" id="best">0</div>
+    </div>
+  </div>
+
+  <!-- Speed pills -->
+  <div class="speed-pills">
+    <button class="pill active" data-speed="150">SLOW</button>
+    <button class="pill"        data-speed="100">NORMAL</button>
+    <button class="pill"        data-speed="60">FAST</button>
+    <button class="pill"        data-speed="35">INSANE</button>
+  </div>
+
+  <!-- Snake skin picker -->
+  <div class="skin-bar">
+    <span class="skin-label">SKIN:</span>
+    <!-- swatches injected by JS -->
+  </div>
+
+  <!-- Game arena -->
+  <div class="arena-wrapper">
+    <div class="arena-frame">
+      <canvas id="canvas" width="480" height="480"></canvas>
+
+      <!-- Start screen -->
+      <div class="overlay" id="startScreen">
+        <div class="overlay-title">READY?</div>
+        <div class="overlay-score">ARROW KEYS / WASD · SPACE PAUSE<br>EAT ALL THE CHERRIES 🍒</div>
+        <button class="btn" id="startBtn">START GAME</button>
+      </div>
+
+      <!-- Game over screen -->
+      <div class="overlay hidden" id="overScreen">
+        <div class="overlay-title dead">GAME OVER</div>
+        <div class="overlay-score" id="finalScore"></div>
+        <button class="btn" id="restartBtn">PLAY AGAIN</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="controls">
+    ↑ W &nbsp;|&nbsp; ↓ S &nbsp;|&nbsp; ← A &nbsp;|&nbsp; → D &nbsp;·&nbsp; SPACE TO PAUSE<br>
+    🍒 RED CHERRY +10 · ✨ GOLDEN CHERRY +50 · 💀 SKULL CHERRY −1 LIFE
+  </div>
+
+</div><!-- /.page -->
+
+<script src="script.js"></script>
+</body>
+</html>
